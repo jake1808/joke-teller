@@ -8,20 +8,19 @@ const VoiceRSS = { speech: function (e) { this._validate(e), this._request(e) },
 const apiKey = 'e5138a592e604be4a79756c1fd7d381e'
 const apiUrl = 'https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit'
 
-
-
-// function test() {
-//     VoiceRSS.speech({
-//         key: apiKey,
-//         src: 'Hello, world!',
-//         hl: 'en-us',
-//         v: 'Linda',
-//         r: 0,
-//         c: 'mp3',
-//         f: '44khz_16bit_stereo',
-//         ssml: false
-//     });
-// }
+// Passing  the joke to the voice API
+function tellMeAJoke(joke) {
+    VoiceRSS.speech({
+        key: apiKey,
+        src: joke,
+        hl: 'en-us',
+        v: 'Linda',
+        r: 0,
+        c: 'mp3',
+        f: '44khz_16bit_stereo',
+        ssml: false
+    });
+}
 
 // Get jokes from Joke API
 async function getJokes() {
@@ -32,19 +31,13 @@ async function getJokes() {
 
         data.setup ? joke = `${data.setup} ... ${data.delivery}` : joke = data.joke;
 
-        VoiceRSS.speech({
-            key: apiKey,
-            src: joke,
-            hl: 'en-us',
-            v: 'Linda',
-            r: 0,
-            c: 'mp3',
-            f: '44khz_16bit_stereo',
-            ssml: false
-        });
+        tellMeAJoke(joke);
+
     } catch (error) {
         console.log('get jokes\n', error);
     }
 }
 
-getJokes();
+button.addEventListener('click', () => {
+    getJokes();
+})
