@@ -8,6 +8,11 @@ const VoiceRSS = { speech: function (e) { this._validate(e), this._request(e) },
 const apiKey = 'e5138a592e604be4a79756c1fd7d381e'
 const apiUrl = 'https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit'
 
+// disable/enable button
+function toggleButton() {
+    button.disabled = !button.disabled;
+}
+
 // Passing  the joke to the voice API
 function tellMeAJoke(joke) {
     VoiceRSS.speech({
@@ -32,12 +37,18 @@ async function getJokes() {
         data.setup ? joke = `${data.setup} ... ${data.delivery}` : joke = data.joke;
 
         tellMeAJoke(joke);
-
+        toggleButton();
     } catch (error) {
         console.log('get jokes\n', error);
     }
 }
 
+
+
 button.addEventListener('click', () => {
     getJokes();
-})
+});
+
+audioElement.addEventListener('ended', () => {
+    toggleButton();
+});
